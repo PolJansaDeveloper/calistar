@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "calistar"
+rootProject.name = "CalisthenicsLevel"
 include(":app")
- 
