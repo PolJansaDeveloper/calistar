@@ -15,8 +15,8 @@ import com.pjdev.calisthenicslevel.presentation.home.HomeScreen
 import com.pjdev.calisthenicslevel.presentation.onboarding.EpicIntroScreen
 import com.pjdev.calisthenicslevel.presentation.onboarding.LevelRevealScreen
 import com.pjdev.calisthenicslevel.presentation.onboarding.OnboardingViewModel
+import com.pjdev.calisthenicslevel.presentation.onboarding.AssessmentStepScaffold
 import com.pjdev.calisthenicslevel.presentation.onboarding.TestExplainerScreen
-import com.pjdev.calisthenicslevel.presentation.onboarding.TestScreen
 
 @Composable
 fun AppNavHost(
@@ -49,47 +49,66 @@ fun AppNavHost(
             )
         }
         composable(AppRoute.TestPush.route) {
-            TestScreen(
-                title = "Prueba de flexiones",
+            AssessmentStepScaffold(
+                stepTitle = "Prueba de flexiones",
+                stepSubtitle = "Paso 1 de 4",
+                instruction = "Haz flexiones estrictas en una sola serie. Cuenta solo repeticiones limpias.",
                 value = onboardingState.pushReps,
-                onDecrease = { onboardingViewModel.updatePushReps(onboardingState.pushReps - 1) },
-                onIncrease = { onboardingViewModel.updatePushReps(onboardingState.pushReps + 1) },
+                unitLabel = "reps",
+                onDecrement = { onboardingViewModel.updatePushReps(onboardingState.pushReps - 1) },
+                onIncrement = { onboardingViewModel.updatePushReps(onboardingState.pushReps + 1) },
+                helperText = "",
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigate(AppRoute.TestPull.route) }
+                onContinue = { navController.navigate(AppRoute.TestPull.route) },
+                currentStep = 0
             )
         }
         composable(AppRoute.TestPull.route) {
-            TestScreen(
-                title = "Prueba de dominadas",
-                helperText = "Si aún no haces dominadas, pon 0.",
+            AssessmentStepScaffold(
+                stepTitle = "Prueba de dominadas",
+                stepSubtitle = "Paso 2 de 4",
+                instruction = "Realiza dominadas estrictas, mentón por encima de la barra en cada repetición.",
                 value = onboardingState.pullReps,
-                onDecrease = { onboardingViewModel.updatePullReps(onboardingState.pullReps - 1) },
-                onIncrease = { onboardingViewModel.updatePullReps(onboardingState.pullReps + 1) },
+                unitLabel = "reps",
+                onDecrement = { onboardingViewModel.updatePullReps(onboardingState.pullReps - 1) },
+                onIncrement = { onboardingViewModel.updatePullReps(onboardingState.pullReps + 1) },
+                helperText = "Si aún no haces dominadas, pon 0.",
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigate(AppRoute.TestCore.route) }
+                onContinue = { navController.navigate(AppRoute.TestCore.route) },
+                currentStep = 1
             )
         }
         composable(AppRoute.TestCore.route) {
-            TestScreen(
-                title = "Prueba de core (segundos)",
+            AssessmentStepScaffold(
+                stepTitle = "Prueba de core",
+                stepSubtitle = "Paso 3 de 4",
+                instruction = "Mantén plancha frontal con técnica limpia y cadera estable.",
                 value = onboardingState.coreSeconds,
-                onDecrease = { onboardingViewModel.updateCoreSeconds(onboardingState.coreSeconds - 5) },
-                onIncrease = { onboardingViewModel.updateCoreSeconds(onboardingState.coreSeconds + 5) },
+                unitLabel = "seg",
+                onDecrement = { onboardingViewModel.updateCoreSeconds(onboardingState.coreSeconds - 5) },
+                onIncrement = { onboardingViewModel.updateCoreSeconds(onboardingState.coreSeconds + 5) },
+                helperText = "",
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigate(AppRoute.TestLegs.route) }
+                onContinue = { navController.navigate(AppRoute.TestLegs.route) },
+                currentStep = 2
             )
         }
         composable(AppRoute.TestLegs.route) {
-            TestScreen(
-                title = "Prueba de piernas",
+            AssessmentStepScaffold(
+                stepTitle = "Prueba de piernas",
+                stepSubtitle = "Paso 4 de 4",
+                instruction = "Completa sentadillas controladas y profundas. Mantén ritmo constante.",
                 value = onboardingState.legsReps,
-                onDecrease = { onboardingViewModel.updateLegsReps(onboardingState.legsReps - 1) },
-                onIncrease = { onboardingViewModel.updateLegsReps(onboardingState.legsReps + 1) },
+                unitLabel = "reps",
+                onDecrement = { onboardingViewModel.updateLegsReps(onboardingState.legsReps - 1) },
+                onIncrement = { onboardingViewModel.updateLegsReps(onboardingState.legsReps + 1) },
+                helperText = "",
                 onBack = { navController.popBackStack() },
                 onContinue = {
                     onboardingViewModel.startAnalysis()
                     navController.navigate(AppRoute.LevelReveal.route)
-                }
+                },
+                currentStep = 3
             )
         }
         composable(AppRoute.LevelReveal.route) {
